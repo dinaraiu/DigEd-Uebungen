@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lückentext – Eingabe</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        margin: 20px;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .gap-input {
+        width: 15px;
+        height: 20px;
+        text-align: center;
+        font-size: 16px;
+        border: 1px solid #888;
+        border-radius: 4px;
+        margin: 0 2px;
+      }
+
+      .correct {
+        border-color: #4caf50 !important;
+        background: #ecfdf5;
+        color: #1f2937;
+      }
+
+      .wrong {
+        border-color: #f44336 !important;
+        background: #fef2f2;
+        color: #b91c1c;
+      }
+
+      #feedback {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      button {
+        padding: 0.6rem 1rem;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        align-self: flex-end;
+        margin-top: 0.5rem;
+        background-color: #153bff;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <p>
+        1. b<input id="l1" class="gap-input" maxlength="1" />ttl<input
+          id="l2"
+          class="gap-input"
+          maxlength="1"
+        />g<input id="l3" class="gap-input" maxlength="1" />r<input
+          id="l4"
+          class="gap-input"
+          maxlength="1"
+        />g
+      </p>
+
+      <p>
+        2. P<input id="l5" class="gap-input" maxlength="1" />t<input
+          id="l6"
+          class="gap-input"
+          maxlength="1"
+        /><input id="l7" class="gap-input" maxlength="1" />nt<input
+          id="l8"
+          class="gap-input"
+          maxlength="1"
+        />nv<input id="l9" class="gap-input" maxlength="1" />rf<input
+          id="l10"
+          class="gap-input"
+          maxlength="1"
+        />g<input id="l11" class="gap-input" maxlength="1" />ng
+      </p>
+
+      <p>
+        3. Br<input id="l12" class="gap-input" maxlength="1" />nch<input
+          id="l13"
+          class="gap-input"
+          maxlength="1"
+        /><input id="l14" class="gap-input" maxlength="1" />lk<input
+          id="l15"
+          class="gap-input"
+          maxlength="1"
+        />rz<input id="l16" class="gap-input" maxlength="1" />n<input
+          id="l17"
+          class="gap-input"
+          maxlength="1"
+        />m
+      </p>
+
+      <p>
+        4. <input id="l18" class="gap-input" maxlength="1" />nv<input
+          id="l19"
+          class="gap-input"
+          maxlength="1"
+        />s<input id="l20" class="gap-input" maxlength="1" />v<input
+          id="l21"
+          class="gap-input"
+          maxlength="1"
+        />
+        B<input id="l22" class="gap-input" maxlength="1" /><input
+          id="l23"
+          class="gap-input"
+          maxlength="1"
+        />tm<input id="l24" class="gap-input" maxlength="1" />ng
+      </p>
+
+      <p>
+        5. <input id="l25" class="gap-input" maxlength="1" />p<input
+          id="l26"
+          class="gap-input"
+          maxlength="1"
+        /><input id="l27" class="gap-input" maxlength="1" /><input
+          id="l28"
+          class="gap-input"
+          maxlength="1"
+        />dd<input id="l29" class="gap-input" maxlength="1" />s<input
+          id="l30"
+          class="gap-input"
+          maxlength="1"
+        />s
+      </p>
+
+      <p>
+        6. <input id="l31" class="gap-input" maxlength="1" />bg<input
+          id="l32"
+          class="gap-input"
+          maxlength="1"
+        />m<input id="l33" class="gap-input" maxlength="1" />g<input
+          id="l34"
+          class="gap-input"
+          maxlength="1"
+        />rt
+      </p>
+      <div id="feedback"></div>
+      <button onclick="checkAnswers()">Überprüfen</button>
+    </div>
+
+    <script>
+      const keys = {
+        l1: "e",
+        l2: "ä",
+        l3: "e",
+        l4: "i",
+
+        l5: "a",
+        l6: "i",
+        l7: "e",
+        l8: "e",
+        l9: "e",
+        l10: "ü",
+        l11: "u",
+
+        l12: "o",
+        l13: "i",
+        l14: "a",
+        l15: "a",
+        l16: "i",
+        l17: "o",
+
+        l18: "i",
+        l19: "a",
+        l20: "i",
+        l21: "e",
+        l22: "e",
+        l23: "a",
+        l24: "u",
+
+        l25: "O",
+        l26: "i",
+        l27: "o",
+        l28: "i",
+        l29: "o",
+        l30: "i",
+
+        l31: "a",
+        l32: "e",
+        l33: "a",
+        l34: "e",
+      };
+
+      function checkAnswers() {
+        let allCorrect = true;
+
+        Object.keys(keys).forEach((id) => {
+          const field = document.getElementById(id);
+          const value = field.value.trim();
+          const expected = keys[id];
+
+          field.classList.remove("correct", "wrong");
+
+          const isCaseSensitive = expected === expected.toUpperCase();
+
+          let correct;
+          if (isCaseSensitive) {
+            correct = value === expected;
+          } else {
+            correct = value.toLowerCase() === expected.toLowerCase();
+          }
+
+          if (correct) {
+            field.classList.add("correct");
+          } else {
+            field.classList.add("wrong");
+            allCorrect = false;
+          }
+        });
+
+        const feedback = document.getElementById("feedback");
+
+        if (allCorrect) {
+          feedback.textContent = "Super!";
+          feedback.style.color = "#15803d";
+        } else {
+          feedback.textContent = "Bitte versuche es noch einmal!";
+          feedback.style.color = "#b91c1c";
+        }
+      }
+    </script>
+  </body>
+</html>
